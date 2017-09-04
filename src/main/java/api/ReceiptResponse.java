@@ -2,7 +2,9 @@ package api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import generated.tables.records.ReceiptsRecord;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.annotation.Nonnull;
 import java.math.BigDecimal;
 import java.sql.Time;
 
@@ -19,6 +21,8 @@ public class ReceiptResponse {
     @JsonProperty
     Integer id;
 
+    @Nonnull
+    @NotEmpty
     @JsonProperty
     String merchant;
 
