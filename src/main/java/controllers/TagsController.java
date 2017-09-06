@@ -32,7 +32,7 @@ public class TagsController {
     }
 
     /**
-     *
+     * Controller to toggle tag associated with a particular receipt
      * @param tag
      * @param id
      */
@@ -51,25 +51,22 @@ public class TagsController {
     }
 
     /**
-     *
+     * Controller to get receipts tagged with a particular tag
      * @param tag
      * @return
+     *
      */
     @GET
     @Path("{tag}")
     public List<ReceiptResponse> getReceipts(@PathParam("tag") String tag) {
-        System.out.println("Getting receipts for tag:"+tag);
-        List<TagsRecord> taggedReceipts = tags.getTaggedReciepts(tag);
-        System.out.println("Total receipts found:"+taggedReceipts.size());
-        System.out.println("RESULT: ");
-        List<ReceiptResponse> rrsp;
+        List<TagsRecord> taggedReceiptRecords = tags.getTaggedReciepts(tag);
+        List<ReceiptResponse> taggedReceipts;
         List<ReceiptsRecord> receiptsRecords = new ArrayList<ReceiptsRecord>();
-        for(TagsRecord tagsRecord : taggedReceipts){
-            System.out.println(tagsRecord.getReceiptId());
+        for(TagsRecord tagsRecord : taggedReceiptRecords){
             receiptsRecords.add(receipts.getReceiptById(tagsRecord.getReceiptId()));
         }
-        rrsp = receiptsRecords.stream().map(ReceiptResponse::new).collect(toList());
-        return rrsp;
+        taggedReceipts = receiptsRecords.stream().map(ReceiptResponse::new).collect(toList());
+        return taggedReceipts;
     }
 
 }

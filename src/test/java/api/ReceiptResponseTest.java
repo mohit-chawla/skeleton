@@ -18,6 +18,9 @@ public class ReceiptResponseTest {
 
     private final Validator validator = Validators.newValidator();
 
+    /**
+     * Test a valid Response object
+     */
     @Test
     public void testValidResponse() {
         ReceiptsRecord record = new ReceiptsRecord();
@@ -29,6 +32,9 @@ public class ReceiptResponseTest {
         assertThat(validator.validate(receipt), empty());
     }
 
+    /**
+     * Test an invalid Response object with Missing Merchant(NonEmpty)
+     */
     @Test
     public void testMissingMerchant() {
         ReceiptsRecord record = new ReceiptsRecord();
