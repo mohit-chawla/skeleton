@@ -39,6 +39,11 @@ public class TagsDao {
     public List<TagsRecord> getTaggedReciepts(String tag){
         return dsl.selectFrom(TAGS).where(TAGS.TAG.eq(tag)).fetch();
     }
+
+    public List<TagsRecord> getTagsForReceipt(int receiptId){
+        return dsl.selectFrom(TAGS).where(TAGS.RECEIPT_ID.eq(receiptId)).fetch();
+    }
+
     public int removeTag(TagsRecord tagRecord){
         return tagRecord.delete();
     }

@@ -1,0 +1,46 @@
+.receipt, .head {
+    display:flex;
+    flex-direction: row;
+    margin-left: 20px;
+    margin-top:5px;
+    font-size: 15px;
+    background:#EEE;
+}
+
+.tags{
+    width:auto;
+}
+#receiptList{
+    text-align: center;
+}
+.receipt span, .head span{
+    margin-left: 20px;
+}
+
+.tag-body{
+    border:black 1px solid;
+    padding:5px;
+    border-radius: 20%;
+    background: white;
+
+}
+
+.head span{
+    font-weight: bold;
+}
+
+.add-tag{
+    background-color:#00FA9A;
+    color:white;
+    border-radius:20%;
+    padding:6px;
+    width:auto;
+}
+.remove-tag{
+    color:#E50000;
+    border-radius:20%;
+    padding:6px;
+}
+.add-tag:hover{
+    font-weight: bolder;
+ }
