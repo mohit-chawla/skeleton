@@ -60,10 +60,12 @@ function clearAddReceiptInputs(){
 }
 $("#add-receipt").on("click",function(){
     $("#add-receipt-dialogue").show();
+    $("#add-receipt-error").hide();
 });
 $("#cancel-receipt").on("click",function(){
     clearAddReceiptInputs();
     $("#add-receipt-dialogue").hide();
+    $("#add-receipt-error").hide();
 });
 $("#save-receipt").on("click",function(){
     merchant = $("#merchant").val();
@@ -71,17 +73,34 @@ $("#save-receipt").on("click",function(){
     console.log(merchant);
     console.log(amount);
 
-    $.ajax({
-        type: 'POST',
-        url: '/receipts',
-        data: '{"merchant":"'+merchant+'","amount":'+amount+'}', // or JSON.stringify ({name: 'jonas'}),
-        success: function(data) {
-            $("#receiptList").empty();
-            getReceipts();
-            clearAddReceiptInputs();
-            $("#add-receipt-dialogue").hide();
-        },
-        contentType: "application/json",
-        dataType: 'json'
-    });
+    if(merchant.length == 0){
+        console.log("here");
+        $("#add-receipt-error").text("Merchant cannot be empty.");
+        $("#add-receipt-error").show();
+    }
+    else if(amount.length == 0){
+        $("#add-receipt-error").text("Amount cannot be empty.");
+        $("#add-receipt-error").show();
+    }else{
+        debugger;
+        $.ajax({
+            type: 'POST',
+            url: '/receipts',
+            data: '{"merchant":"'+merchant+'","amount":'+amount+'}', // or JSON.stringify ({name: 'jonas'}),
+            success: function(data) {
+                $("#receiptList").empty();
+                getReceipts();
+                clearAddReceiptInputs();
+                $("#add-receipt-dialogue").hide();
+            },
+            error: function(status,data){
+                console.log(status);
+                console.log("hi"+data);
+                $("#add-receipt-error").text(data);
+                $("#add-receipt-error").show();
+            },
+            contentType: "application/json",
+            dataType: 'json'
+        });
+    }
 });

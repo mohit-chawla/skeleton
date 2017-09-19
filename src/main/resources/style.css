@@ -44,3 +44,7 @@
 .add-tag:hover{
     font-weight: bolder;
  }
+
+#add-receipt-error{
+    color:red;
+}
