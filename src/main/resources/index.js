@@ -82,7 +82,7 @@ $("#save-receipt").on("click",function(){
         $("#add-receipt-error").text("Amount cannot be empty.");
         $("#add-receipt-error").show();
     }else{
-        debugger;
+        //debugger;
         $.ajax({
             type: 'POST',
             url: '/receipts',

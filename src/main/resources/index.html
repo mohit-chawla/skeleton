@@ -16,9 +16,87 @@
 
 
     <style>
+        video {
+            width: 550px;
+            height: 300px;
+            border: 1px solid black;
+        }
+        #vidwrap {
+            margin: 20px 0;
+        }
 
+        #start-camera, #take-pic {
+            height: 3em;
+        }
 
     </style>
+    <script>
+
+        // Script for image capture
+        let imageCapture;
+        let track;
+
+        function  setGCApiStatus(status) {
+            $("#gc-api-status").text(status);
+        }
+
+        function attachMediaStream(mediaStream) {
+            $('video')[0].srcObject = mediaStream;
+            // Saving the track allows us to capture a photo
+            track = mediaStream.getVideoTracks()[0];
+            imageCapture = new ImageCapture(track);
+        }
+        function startVideo() {
+            if($("#vidwrap").children().length == 0){
+                $("#vidwrap").append($("<video autoplay></video>"));
+            }
+            navigator.mediaDevices.getUserMedia({video: {facingMode: {exact: "environment"}}})
+                .then(attachMediaStream)
+                .catch(error => {
+                navigator.mediaDevices.getUserMedia({video: true})
+                .then(attachMediaStream)
+                .catch(error => {
+                console.log('you are fooked');
+        })
+        })
+        }
+        function takeSnapshot() {
+            // create a CANVAS element that is same size as the image
+            imageCapture.grabFrame()
+                .then(img => {
+                const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            canvas.getContext('2d').drawImage(img, 0, 0);
+            const base64EncodedImageData = canvas.toDataURL('image/png').split(',')[1];
+            setGCApiStatus("processing your image...");
+            $.ajax({
+                url: "/images",
+                type: "POST",
+                data: base64EncodedImageData,
+                contentType: "text/plain",
+                success: function() {},
+            })
+                .then(response => {
+                //$('video').after(`<div>got response: <pre>${JSON.stringify(response)}</pre></div>`);
+                $('video').remove();
+                setGCApiStatus("input found, pre-filling merchant and amount..")
+                $("#add-receipt").click();
+                $("#merchant").val(response['merchantName']);
+                $("#amount").val(response['amount']);
+        })
+        .always(() => console.log('request complete'));
+            // For debugging, you can uncomment this to see the frame that was captured
+            // $('BODY').append(canvas);
+        });
+        }
+        $(function () {
+            $('#start-camera').on('click', startVideo);
+            $('video').on('play', () => $('#take-pic').prop('disabled', false));
+            $('#take-pic').on('click', takeSnapshot);
+        });
+    </script>
+
     <script>
 
         var data = [];
@@ -108,12 +186,11 @@
 <body>
 <div id="container">
     <h1>My receipts</h1>
-    <div class="button">+</div>
     <div id="receiptList">
         <div class="head">
             <span class="heading">Merchant</span>
             <span class="heading">Amount</span>
-            <span class="heading">Create</span>
+            <span class="heading">Created</span>
             <span class="heading">Tags</span>
         </div>
 
@@ -126,8 +203,18 @@
         <span id="add-receipt-error" style="display:none;"></span>
     </div>
     <button id="add-receipt">Add new receipt</button>
+    <center>Status: <span id="gc-api-status"></span></center>
 </div>
 <script type="text/javascript" src="index.js"></script>
+
+<button id="start-camera">Start Video</button>
+<button id="take-pic" disabled="true">Take a Snapshot!</button>
+<button id="take-pic-cancel" disabled="true">Cancel</button>
+<br>
+<div id="vidwrap">
+    <video autoplay></video>
+</div>
+
 </body>
 
 </html>
