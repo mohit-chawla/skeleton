@@ -1,5 +1,5 @@
 
-
+//TEST LATEST
 function addTag(tag,receipt,elem){
     $.ajax({
         type: 'PUT',

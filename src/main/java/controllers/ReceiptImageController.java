@@ -118,9 +118,9 @@ public class ReceiptImageController {
                 skip = false;
 
             }
-            if(lines!=null && merchantName!=lines[0]){
-                merchantName = lines[0];
-            }
+//            if(lines!=null && merchantName!=lines[0]){
+//                merchantName = lines[0];
+//            }
             //TextAnnotation fullTextAnnotation = res.getFullTextAnnotation();
             return new ReceiptSuggestionResponse(merchantName, amount);
         }
