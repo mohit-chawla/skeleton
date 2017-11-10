@@ -4,6 +4,14 @@ skeleton    [![CircleCI](https://circleci.com/gh/mohit-chawla/skeleton.svg?style
 Repository for Startup Systems Design and Engineering Assignments
 ---
 
+## Project Objective:
+Design a camera based receipt management system.
+Features available for end user:
+1. Take picture of the receipt to prefil entries. (Implemented using Google Vision API)
+2. Entries include merchant name and amout.
+3. Associate tags/categories with receipt (Tag/Untag).
+4. View receipts by tags/categories.
+
 ## API SPEC
 The API we are building is relatively simple, and only supports operations on two
 resources: `receipts` and `tags`.  The basic idea is that one should be able to create new
