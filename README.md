@@ -1,7 +1,6 @@
 skeleton    [![CircleCI](https://circleci.com/gh/mohit-chawla/skeleton.svg?style=svg)](https://circleci.com/gh/mohit-chawla/skeleton)
 
-============
-Repository for Startup Systems Design and Engineering Assignments
+Camera based Receipt Management System
 ---
 
 ## Project Objective:
